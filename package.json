@@ -30,6 +30,9 @@
     "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "nodemon": "^1.19.4"
   }
 }
