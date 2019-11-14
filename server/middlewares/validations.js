@@ -23,9 +23,18 @@ const validateSignin = (data) => {
   return Joi.validate(data, schema);
 };
 
+const validateArticle = (data) => {
+  const schema = {
+    title: Joi.string().required().error((_error) => ({ message: 'Article title is required' })),
+    article: Joi.string().required().error((_error) => ({ message: 'Article body is required' })),
+  };
+  return Joi.validate(data, schema);
+};
+
 const validations = {
   validateCreateUser,
   validateSignin,
+  validateArticle,
 };
 
 export default validations;

@@ -72,7 +72,7 @@ describe('/POST Create User Route', () => {
         done();
       });
   });
-  it('should create a new user if firstname is missing', (done) => {
+  it('should not create a new user if firstname is missing', (done) => {
     request(server)
       .post('/api/v1/auth/create-user')
       .set('Authorization', userToken)

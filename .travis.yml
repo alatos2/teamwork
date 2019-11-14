@@ -1,0 +1,16 @@
+language: node_js
+service:
+  - postgresql
+addons:
+  postgresql: "9.4"
+before_script:
+  - psql -c 'drop database if exists teamwork;' -U postgres
+  - psql -c 'create database teamwork;' -U postgres
+node_js:
+- 'stable'
+cache:
+  directories:
+    - "node_modules"
+notifications:
+  email: false
+after_success: npm run coverage

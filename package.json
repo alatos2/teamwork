@@ -9,8 +9,10 @@
     "db:dropTable": "babel-node ./server/models/migrations dropTables",
     "db:createTable": "babel-node ./server/models/migrations createTables",
     "db:createUser": "babel-node ./server/models/migrations createUser",
-    "db:seed": "npm run db:createUser",
-    "db:migrations": "npm run db:dropTable && npm run db:createTable"
+    "db:createArticle": "babel-node ./server/models/migrations createArticle",
+    "db:seed": "npm run db:createUser && npm run db:createArticle",
+    "db:migrations": "npm run db:dropTable && npm run db:createTable",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,7 @@
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
