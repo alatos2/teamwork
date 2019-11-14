@@ -9,7 +9,7 @@ import Responses from '../helpers/response';
 export default class ArticleModel {
   /**
    * @method
-   * @description Model to create a user account
+   * @description Model to create article
    * @static
    * @param {object} values - body values
    * @param {object} res - Response object
@@ -30,6 +30,37 @@ export default class ArticleModel {
             title: article.title,
           };
           Responses.setSuccess(201, { ...articleData });
+          return Responses.send(res);
+        })
+        .catch((e) => {
+          Responses.setError(500, 'Server error');
+          return Responses.send(res);
+        });
+    });
+  }
+  /**
+   * @method
+   * @description Model to create article
+   * @static
+   * @param {object} values - body values
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof ArticleModel
+   */
+
+  static edit(values, res) {
+    const text = 'UPDATE articles SET title = $1, article = $2 WHERE id = $3 RETURNING *';
+    pool.connect((error, client, done) => {
+      client
+        .query(text, values)
+        .then((result) => {
+          const article = result.rows[0];
+          const articleData = {
+            message: 'Article successfully updated',
+            title: article.title,
+            article: article.article,
+          };
+          Responses.setSuccess(200, { ...articleData });
           return Responses.send(res);
         })
         .catch((e) => {

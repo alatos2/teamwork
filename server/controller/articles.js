@@ -5,7 +5,7 @@ import ArticleModel from '../models/articles';
 import Responses from '../helpers/response';
 
 /**
- * @function createAccount
+ * @function createArticle
  * @param {object} req - express request object
  * @param {object} res - express response object
  * @returns json
@@ -26,8 +26,30 @@ const createArticle = (req, res) => {
   ArticleModel.create(articleValues, res);
 };
 
+/**
+ * @function editArticle
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const editArticle = (req, res) => {
+  const {
+    title, article,
+  } = req.body;
+  const { id } = req.params;
+  const result = validations.validateArticle(req.body);
+  if (result.error) {
+    const errorMsg = result.error.details[0].message;
+    Responses.setError(400, errorMsg.replace(/[^a-zA-Z ]/g, ''));
+    return Responses.send(res);
+  }
+  const articleValues = [title, article, id];
+  ArticleModel.edit(articleValues, res);
+};
+
 const article = {
-  createArticle,
+  createArticle, editArticle,
 };
 
 export default article;
