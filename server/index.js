@@ -4,6 +4,7 @@ import cors from 'cors';
 import Debug from 'debug';
 import userRoute from './routes/userRoute';
 import articleRoute from './routes/articleRoute';
+import gifRoute from './routes/gifRoute';
 
 const app = express();
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(cors());
 
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/auth', articleRoute);
+app.use('/api/v1/auth', gifRoute);
 
 const debug = Debug('http');
 const PORT = process.env.PORT;

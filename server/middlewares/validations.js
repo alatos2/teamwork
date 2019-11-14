@@ -31,10 +31,19 @@ const validateArticle = (data) => {
   return Joi.validate(data, schema);
 };
 
+const validateGif = (data) => {
+  const schema = {
+    title: Joi.string().required().error((_error) => ({ message: 'Article title is required' })),
+    image: Joi.string().required().error((_error) => ({ message: 'Gif image is required' })),
+  };
+  return Joi.validate(data, schema);
+};
+
 const validations = {
   validateCreateUser,
   validateSignin,
   validateArticle,
+  validateGif,
 };
 
 export default validations;

@@ -1,6 +1,5 @@
 import moment from 'moment';
 import validations from '../middlewares/validations';
-import utils from '../helpers/commons';
 import ArticleModel from '../models/articles';
 import Responses from '../helpers/response';
 

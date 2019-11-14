@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test && npm run db:migrations && npm run db:seed && nyc mocha --timeout 90000 ./server/test/*.js --require @babel/register --exit",
+    "test": "cross-env NODE_ENV=test && npm run db:migrations && npm run db:seed && nyc mocha --timeout 10000 ./server/test/*.js --require @babel/register --exit",
     "start:dev": "set DEBUG=http && nodemon --exec babel-node ./server/index",
     "db:dropTable": "babel-node ./server/models/migrations dropTables",
     "db:createTable": "babel-node ./server/models/migrations createTables",
     "db:createUser": "babel-node ./server/models/migrations createUser",
     "db:createArticle": "babel-node ./server/models/migrations createArticle",
-    "db:seed": "npm run db:createUser && npm run db:createArticle",
+    "db:createGif": "babel-node ./server/models/migrations createGif",
+    "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif",
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -28,6 +29,7 @@
   "dependencies": {
     "@hapi/joi": "^15.1.1",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.17.0",
     "cors": "^2.8.5",
     "cross-env": "^6.0.3",
     "debug": "^4.1.1",

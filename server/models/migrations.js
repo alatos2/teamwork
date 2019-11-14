@@ -12,6 +12,9 @@ const userValues = ['Frank', 'Lampard', 'frank@gmail.com', utils.hashPassword('1
 const articleText = 'INSERT INTO articles (user_id,title,article,created_at) VALUES ($1,$2,$3,$4) RETURNING *';
 const articleValues = ['1', 'Black Cat', 'The black cat is handsome', moment().format()];
 
+const gifText = 'INSERT INTO gifs (user_id,title,image,created_at) VALUES ($1,$2,$3,$4) RETURNING *';
+const gifValues = ['1', 'White House', 'https://res.cloudinary.com/daealmvag/image/upload/v1561569684/house2_kagcwz.jpg', moment().format()];
+
 const createTables = () => {
   const users = `CREATE TABLE IF NOT EXISTS
     users (
@@ -33,7 +36,16 @@ const createTables = () => {
         id serial primary key,
         user_id INT NOT NULL,
         title varchar(128) not null,
-        article varchar(128) not null,
+        article varchar(500) not null,
+        created_at timestamp
+    )`;
+
+  const gifs = `CREATE TABLE IF NOT EXISTS
+    gifs (
+        id serial primary key,
+        user_id INT NOT NULL,
+        title varchar(128) not null,
+        image varchar(256) not null,
         created_at timestamp
     )`;
 
@@ -56,10 +68,20 @@ const createTables = () => {
       debug(error);
       pool.end();
     });
+
+  pool.query(gifs)
+    .then((response) => {
+      debug(response);
+      pool.end();
+    })
+    .catch((error) => {
+      debug(error);
+      pool.end();
+    });
 };
 
 const dropTables = () => {
-  pool.query('DROP TABLE IF EXISTS users, articles')
+  pool.query('DROP TABLE IF EXISTS users, articles, gifs')
     .then(() => {
       debug('Table dropped');
     });
@@ -87,13 +109,24 @@ const createArticle = () => {
     });
 };
 
+const createGif = () => {
+  pool
+    .query(gifText, gifValues)
+    .then((result) => {
+      debug(result.rows[0]);
+    })
+    .catch((error) => {
+      debug(error.stack);
+    });
+};
+
 pool.on('remove', () => {
   debug('client removed');
   process.exit(0);
 });
 
 module.exports = {
-  createTables, dropTables, createUser, createArticle,
+  createTables, dropTables, createUser, createArticle, createGif,
 };
 
 require('make-runnable');
