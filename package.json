@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test && npm run db:migrations && npm run db:seed && nyc mocha ./server/test/*.js --require @babel/register --exit",
+    "test": "cross-env NODE_ENV=test && npm run db:migrations && npm run db:seed && nyc mocha --timeout 90000 ./server/test/*.js --require @babel/register --exit",
     "start:dev": "set DEBUG=http && nodemon --exec babel-node ./server/index",
     "db:dropTable": "babel-node ./server/models/migrations dropTables",
     "db:createTable": "babel-node ./server/models/migrations createTables",

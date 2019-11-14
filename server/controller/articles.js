@@ -48,8 +48,21 @@ const editArticle = (req, res) => {
   ArticleModel.edit(articleValues, res);
 };
 
+/**
+ * @function editArticle
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const deleteArticle = (req, res) => {
+  const { id } = req.params;
+  const articleValues = [id];
+  ArticleModel.delete(articleValues, res);
+};
+
 const article = {
-  createArticle, editArticle,
+  createArticle, editArticle, deleteArticle,
 };
 
 export default article;
