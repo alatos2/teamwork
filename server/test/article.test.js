@@ -1,22 +1,23 @@
 import request from 'supertest';
 import { expect } from 'chai';
 import server from '../index';
+import utils from '../helpers/commons';
 
-let userToken;
+const userToken = utils.jwtToken({ id: 1, email: 'frank@gmail.com', isAdmin: true });
 
 describe('/POST Create Article Route', () => {
-  before((done) => {
-    request(server)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'frank@gmail.com',
-        password: '1234',
-      })
-      .end((err, res) => {
-        userToken = res.body.data.token;
-        done(err);
-      });
-  });
+  // before((done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/signin')
+  //     .send({
+  //       email: 'frank@gmail.com',
+  //       password: '1234',
+  //     })
+  //     .end((err, res) => {
+  //       userToken = res.body.data.token;
+  //       done(err);
+  //     });
+  // });
   it('should create an article if details are valid', (done) => {
     request(server)
       .post('/api/v1/auth/articles')
@@ -98,18 +99,18 @@ describe('/POST Create Article Route', () => {
 });
 
 describe('/PATCH Edit Article Route', () => {
-  before((done) => {
-    request(server)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'frank@gmail.com',
-        password: '1234',
-      })
-      .end((err, res) => {
-        userToken = res.body.data.token;
-        done(err);
-      });
-  });
+  // before((done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/signin')
+  //     .send({
+  //       email: 'frank@gmail.com',
+  //       password: '1234',
+  //     })
+  //     .end((err, res) => {
+  //       userToken = res.body.data.token;
+  //       done(err);
+  //     });
+  // });
   it('should edit an article if details are valid', (done) => {
     request(server)
       .patch('/api/v1/auth/articles/1')
@@ -191,18 +192,18 @@ describe('/PATCH Edit Article Route', () => {
 });
 
 describe('/DELETE Delete Article Route', () => {
-  before((done) => {
-    request(server)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'frank@gmail.com',
-        password: '1234',
-      })
-      .end((err, res) => {
-        userToken = res.body.data.token;
-        done(err);
-      });
-  });
+  // before((done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/signin')
+  //     .send({
+  //       email: 'frank@gmail.com',
+  //       password: '1234',
+  //     })
+  //     .end((err, res) => {
+  //       userToken = res.body.data.token;
+  //       done(err);
+  //     });
+  // });
   it('should delete an article if parameter is valid', (done) => {
     request(server)
       .delete('/api/v1/auth/articles/1')

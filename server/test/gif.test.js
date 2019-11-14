@@ -1,22 +1,23 @@
 import request from 'supertest';
 import { expect } from 'chai';
 import server from '../index';
+import utils from '../helpers/commons';
 
-let userToken;
+const userToken = utils.jwtToken({ id: 1, email: 'frank@gmail.com', isAdmin: true });
 
 describe('/POST Create Gif Route', () => {
-  before((done) => {
-    request(server)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'frank@gmail.com',
-        password: '1234',
-      })
-      .end((err, res) => {
-        userToken = res.body.data.token;
-        done(err);
-      });
-  });
+  // before((done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/signin')
+  //     .send({
+  //       email: 'frank@gmail.com',
+  //       password: '1234',
+  //     })
+  //     .end((err, res) => {
+  //       userToken = res.body.data.token;
+  //       done(err);
+  //     });
+  // });
   it('should create gif if details are valid', (done) => {
     request(server)
       .post('/api/v1/auth/gifs')
@@ -83,6 +84,53 @@ describe('/POST Create Gif Route', () => {
         title: 'Ralia the sugar girl',
         article: 'Ralia lives in calabar',
       })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+});
+
+describe('/DELETE Delete Gif Route', () => {
+  // before((done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/signin')
+  //     .send({
+  //       email: 'frank@gmail.com',
+  //       password: '1234',
+  //     })
+  //     .end((err, res) => {
+  //       userToken = res.body.data.token;
+  //       done(err);
+  //     });
+  // });
+  it('should delete gif if parameter is valid', (done) => {
+    request(server)
+      .delete('/api/v1/auth/gifs/1')
+      .set('Authorization', userToken)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not delete gif if user is not logged in', (done) => {
+    request(server)
+      .delete('/api/v1/auth/gifs/1')
+      .set('Authorization', 'userToken')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(401)

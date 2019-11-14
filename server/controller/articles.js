@@ -48,7 +48,7 @@ const editArticle = (req, res) => {
 };
 
 /**
- * @function editArticle
+ * @function deleteArticle
  * @param {object} req - express request object
  * @param {object} res - express response object
  * @returns json

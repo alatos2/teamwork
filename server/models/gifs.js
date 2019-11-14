@@ -39,4 +39,32 @@ export default class GifModel {
         });
     });
   }
+  /**
+   * @method
+   * @description Method to delete article
+   * @static
+   * @param {object} values - body values
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof GifModel
+   */
+
+  static delete(values, res) {
+    const text = 'DELETE FROM gifs WHERE id = $1 RETURNING *';
+    pool.connect((error, client, done) => {
+      client
+        .query(text, values)
+        .then(() => {
+          const gifData = {
+            message: 'gif post successfully deleted',
+          };
+          Responses.setSuccess(200, { ...gifData });
+          return Responses.send(res);
+        })
+        .catch((e) => {
+          Responses.setError(500, 'Server error');
+          return Responses.send(res);
+        });
+    });
+  }
 }

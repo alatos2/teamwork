@@ -25,8 +25,21 @@ const createGif = (req, res) => {
   GifModel.create(gifValues, res);
 };
 
+/**
+ * @function deleteGif
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const deleteGif = (req, res) => {
+  const { id } = req.params;
+  const gifValues = [id];
+  GifModel.delete(gifValues, res);
+};
+
 const gifs = {
-  createGif,
+  createGif, deleteGif,
 };
 
 export default gifs;

@@ -15,7 +15,7 @@ describe('/POST Create User Route', () => {
       })
       .end((err, res) => {
         userToken = res.body.data.token;
-        done(err);
+        done();
       });
   });
   it('should create a new user if details are valid', (done) => {
@@ -42,7 +42,8 @@ describe('/POST Create User Route', () => {
           const responseData = JSON.parse(res.text);
           expect(responseData).to.be.an('object');
         }
-        done();
+        // done();
+        setTimeout(done, 5000);
       });
   });
   it('should not create a new user if email is not in the right format', (done) => {
@@ -310,25 +311,25 @@ describe('/POST Create User Route', () => {
 });
 
 describe('/POST Sign In Route', () => {
-  // it('should sign in a user if details are valid', (done) => {
-  //   request(server)
-  //     .post('/api/v1/auth/signin')
-  //     .send({
-  //       email: 'frank@gmail.com',
-  //       password: '1234',
-  //     })
-  //     .set('Accept', 'application/json')
-  //     .expect('Content-Type', /json/)
-  //     .expect(200)
-  //     .end((err, res) => {
-  //       if (err) throw err;
-  //       else {
-  //         const responseData = JSON.parse(res.text);
-  //         expect(responseData).to.be.an('object');
-  //       }
-  //       done();
-  //     });
-  // });
+  it('should sign in a user if details are valid', (done) => {
+    request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'frank@gmail.com',
+        password: '1234',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
   it('should not sign in a user if email is not in the right format', (done) => {
     request(server)
       .post('/api/v1/auth/signin')
@@ -348,42 +349,42 @@ describe('/POST Sign In Route', () => {
         done();
       });
   });
-  // it('should not create sign in a user if email is incorrect', (done) => {
-  //   request(server)
-  //     .post('/api/v1/auth/signin')
-  //     .send({
-  //       email: 'kelly123@gmail.com',
-  //       password: '1234',
-  //     })
-  //     .set('Accept', 'application/json')
-  //     .expect('Content-Type', /json/)
-  //     .expect(401)
-  //     .end((err, res) => {
-  //       if (err) throw err;
-  //       else {
-  //         const responseData = JSON.parse(res.text);
-  //         expect(responseData).to.be.an('object');
-  //       }
-  //       done();
-  //     });
-  // });
-  // it('should not sign in a user if password is incorrect', (done) => {
-  //   request(server)
-  //     .post('/api/v1/auth/signin')
-  //     .send({
-  //       email: 'frank@gmail.com',
-  //       password: '123455',
-  //     })
-  //     .set('Accept', 'application/json')
-  //     .expect('Content-Type', /json/)
-  //     .expect(401)
-  //     .end((err, res) => {
-  //       if (err) throw err;
-  //       else {
-  //         const responseData = JSON.parse(res.text);
-  //         expect(responseData).to.be.an('object');
-  //       }
-  //       done();
-  //     });
-  // });
+  it('should not create sign in a user if email is incorrect', (done) => {
+    request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'kelly123@gmail.com',
+        password: '1234',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not sign in a user if password is incorrect', (done) => {
+    request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'frank@gmail.com',
+        password: '123455',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
 });
