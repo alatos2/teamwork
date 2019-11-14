@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * @name addUser
  * @description - adds a new employee
@@ -18,7 +20,19 @@ export const addUser = (data) => ({
     address,
     is_admin,
     created_at
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-  values: [data.first_name, data.last_name, data.email, data.password, data.gender, data.job_role,
-    data.department, data.address, data.type, data.is_admin, data.created_at],
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+  values: [data.firstName, data.lastName, data.email, data.password, data.gender, data.jobRole,
+    data.department, data.address, data.isAdmin, moment().format()],
+});
+
+/**
+* @name getUserByEmail
+* @description - gets a single user
+* @param {string} email
+* @returns the query
+*/
+
+export const getUserByEmail = (email) => ({
+  text: 'SELECT * FROM users WHERE email = $1',
+  values: [email],
 });

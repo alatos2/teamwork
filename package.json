@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test && npm run db:migrations && npm run db:seed && nyc mocha ./server/test/*.js --require @babel/register --exit",
     "start:dev": "set DEBUG=http && nodemon --exec babel-node ./server/index",
-    "dropTable": "babel-node ./server/models/migrations dropTables",
-    "createTable": "babel-node ./server/models/migrations createTables",
-    "createUser": "babel-node ./server/models/migrations createUser",
-    "migrate": "npm run dropTable && npm run createTable"
+    "db:dropTable": "babel-node ./server/models/migrations dropTables",
+    "db:createTable": "babel-node ./server/models/migrations createTables",
+    "db:createUser": "babel-node ./server/models/migrations createUser",
+    "db:seed": "npm run db:createUser",
+    "db:migrations": "npm run db:dropTable && npm run db:createTable"
   },
   "repository": {
     "type": "git",
@@ -23,12 +24,14 @@
   },
   "homepage": "https://github.com/alatos2/teamwork#readme",
   "dependencies": {
-    "@hapi/joi": "^16.1.7",
+    "@hapi/joi": "^15.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "cross-env": "^6.0.3",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
     "make-runnable": "^1.3.6",
     "moment": "^2.24.0",
@@ -48,6 +51,8 @@
     "eslint-plugin-import": "^2.18.2",
     "mocha": "^6.2.2",
     "mocha-lcov-reporter": "^1.3.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "nyc": "^14.1.1",
+    "supertest": "^4.0.2"
   }
 }

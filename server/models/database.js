@@ -2,12 +2,11 @@ import Debug from 'debug';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
+let DATABASE_URL = '';
 const debug = Debug('http');
 dotenv.config();
 
-let DATABASE_URL;
-
-if (process.env.NODE_ENV === 'TEST') {
+if (process.env.NODE_ENV === 'test') {
   DATABASE_URL = process.env.DATABASE_TEST_URL;
 } else {
   DATABASE_URL = process.env.DATABASE_DEV_URL;

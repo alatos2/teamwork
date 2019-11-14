@@ -63,6 +63,17 @@ const createUser = () => {
     });
 };
 
+// const createUser = () => {
+//   pool.connect((error, client, done) => {
+//     client
+//       .query(userText, userValues)
+//       .then((result) => {
+//         debug(result.rows[0]);
+//       })
+//       .catch((error) => debug(error.stack));
+//   });
+// };
+
 pool.on('remove', () => {
   debug('client removed');
   process.exit(0);

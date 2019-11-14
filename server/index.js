@@ -21,6 +21,8 @@ app.use('/api/v1/auth', userRoute);
 const debug = Debug('http');
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   debug(`server running at port ${PORT}`);
 });
+
+export default server;

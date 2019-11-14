@@ -37,17 +37,6 @@ const utils = {
   validatePassword(password, hashPassword) {
     return bcrypt.compareSync(password, hashPassword);
   },
-
-  /**
-  * @description validate email
-  * @param {object} email
-  * @returns {object} isValid
-  */
-  validateEmail(email) {
-    const expression = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = expression.test(email);
-    return isValid;
-  },
 };
 
 export default utils;
