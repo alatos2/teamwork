@@ -6,18 +6,6 @@ import utils from '../helpers/commons';
 const userToken = utils.jwtToken({ id: 1, email: 'frank@gmail.com', isAdmin: true });
 
 describe('/POST Create Gif Route', () => {
-  // before((done) => {
-  //   request(server)
-  //     .post('/api/v1/auth/signin')
-  //     .send({
-  //       email: 'frank@gmail.com',
-  //       password: '1234',
-  //     })
-  //     .end((err, res) => {
-  //       userToken = res.body.data.token;
-  //       done(err);
-  //     });
-  // });
   it('should create gif if details are valid', (done) => {
     request(server)
       .post('/api/v1/auth/gifs')
@@ -99,18 +87,6 @@ describe('/POST Create Gif Route', () => {
 });
 
 describe('/DELETE Delete Gif Route', () => {
-  // before((done) => {
-  //   request(server)
-  //     .post('/api/v1/auth/signin')
-  //     .send({
-  //       email: 'frank@gmail.com',
-  //       password: '1234',
-  //     })
-  //     .end((err, res) => {
-  //       userToken = res.body.data.token;
-  //       done(err);
-  //     });
-  // });
   it('should delete gif if parameter is valid', (done) => {
     request(server)
       .delete('/api/v1/auth/gifs/1')

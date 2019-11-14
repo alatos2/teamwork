@@ -60,8 +60,19 @@ const deleteArticle = (req, res) => {
   ArticleModel.delete(articleValues, res);
 };
 
+/**
+ * @function viewAllArticle
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const viewAllArticle = (req, res) => {
+  ArticleModel.viewAll(res);
+};
+
 const article = {
-  createArticle, editArticle, deleteArticle,
+  createArticle, editArticle, deleteArticle, viewAllArticle,
 };
 
 export default article;

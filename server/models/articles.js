@@ -97,4 +97,32 @@ export default class ArticleModel {
         });
     });
   }
+  /**
+   * @method
+   * @description Method to view all article
+   * @static
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof ArticleModel
+   */
+
+  static viewAll(res) {
+    const text = 'SELECT * FROM articles ORDER BY id DESC';
+    pool.connect((error, client, done) => {
+      client
+        .query(text)
+        .then((result) => {
+          const articles = result.rows;
+          const articleData = {
+            data: articles,
+          };
+          Responses.setSuccess(200, { ...articleData });
+          return Responses.send(res);
+        })
+        .catch((e) => {
+          Responses.setError(500, 'Server error');
+          return Responses.send(res);
+        });
+    });
+  }
 }
