@@ -71,18 +71,17 @@ const viewAllArticle = (req, res) => {
   ArticleModel.viewAll(res);
 };
 
-// /**
-//  * @function viewSpecificArticle
-//  * @param {object} req - express request object
-//  * @param {object} res - express response object
-//  * @returns json
-//  */
+/**
+ * @function viewSpecificArticle
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
 
-// const viewSpecificArticle = (req, res) => {
-//   const { id } = req.params;
-//   const articleId = [id];
-//   ArticleModel.viewSpecific(articleId, res);
-// };
+const viewSpecificArticle = (req, res) => {
+  console.log(req.params.id);
+  ArticleModel.viewSpecific([req.params.id], res);
+};
 
 /**
  * @function createComment
@@ -108,7 +107,7 @@ const createComment = (req, res) => {
 };
 
 const article = {
-  createArticle, editArticle, deleteArticle, viewAllArticle, createComment,
+  createArticle, editArticle, deleteArticle, viewAllArticle, createComment, viewSpecificArticle,
 };
 
 export default article;

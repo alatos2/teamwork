@@ -85,7 +85,7 @@ export default class GifModel {
         Responses.setError(400, 'Gif does not exist');
         return Responses.send(res);
       }
-      const result2 = await pool.query('INSERT INTO comments (article_id,user_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
+      const result2 = await pool.query('INSERT INTO comments (article_id,author_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
       const addComment = result2.rows[0];
       const commentData = {
         message: 'Comments successfully created',

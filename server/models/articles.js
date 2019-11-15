@@ -126,33 +126,47 @@ export default class ArticleModel {
     });
   }
 
-  // /**
-  //  * @method
-  //  * @description Method to view all article
-  //  * @static
-  //  * @param {object} res - Response object
-  //  * @returns {object} JSON response
-  //  * @memberof ArticleModel
-  //  */
+  /**
+   * @method
+   * @description Method to view all article
+   * @static
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof ArticleModel
+   */
 
-  // static viewSpecific(articleId, res) {
-  //   pool.connect((error, client, done) => {
-  //     client
-  //       .query('SELECT * FROM articles WHERE id = $1 RETURNING *', articleId)
-  //       .then((result) => {
-  //         const articles = result.rows[0];
-  //         const articleData = {
-  //           data: articles,
-  //         };
-  //         Responses.setSuccess(200, { ...articleData });
-  //         return Responses.send(res);
-  //       })
-  //       .catch((e) => {
-  //         Responses.setError(500, 'Server error');
-  //         return Responses.send(res);
-  //       });
-  //   });
-  // }
+  static async viewSpecific(value1, res) {
+    try {
+      const result1 = await pool.query('SELECT * FROM articles WHERE id = $1', value1);
+      const article = result1.rows[0];
+      if (!article) {
+        Responses.setError(400, 'Article does not exist');
+        return Responses.send(res);
+      }
+      const result2 = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [article.id, 'article']);
+      let comm;
+      const comment = result2.rows;
+      if (!comment) {
+        comm = 'No comment yet';
+      } else {
+        comm = comment;
+      }
+      const articleData = {
+        data: {
+          id: article.id,
+          createOn: article.created_at,
+          title: article.title,
+          article: article.article,
+          comments: comm,
+        },
+      };
+      Responses.setSuccess(200, { ...articleData });
+      return Responses.send(res);
+    } catch (e) {
+      Responses.setError(500, 'Server error');
+      return Responses.send(res);
+    }
+  }
 
   /**
    * @method
@@ -171,7 +185,7 @@ export default class ArticleModel {
         Responses.setError(400, 'Article does not exist');
         return Responses.send(res);
       }
-      const result2 = await pool.query('INSERT INTO comments (article_id,user_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
+      const result2 = await pool.query('INSERT INTO comments (article_id,author_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
       const addComment = result2.rows[0];
       const commentData = {
         message: 'Comments successfully created',

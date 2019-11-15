@@ -297,3 +297,55 @@ describe('/POST Create Comment', () => {
       });
   });
 });
+
+
+describe('/GET View specific article', () => {
+  it('should view specific article if parameter is valid', (done) => {
+    request(server)
+      .get('/api/v1/auth/articles/2')
+      .set('Authorization', userToken)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not view specific article if id is not valid', (done) => {
+    request(server)
+      .get('/api/v1/auth/articles/10')
+      .set('Authorization', userToken)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  // it('should not view specific article if user is not logged in', (done) => {
+  //   request(server)
+  //     .post('/api/v1/auth/articles/2')
+  //     .set('Authorization', 'userToken')
+  //     .set('Accept', 'application/json')
+  //     .expect('Content-Type', /json/)
+  //     .expect(401)
+  //     .end((err, res) => {
+  //       if (err) throw err;
+  //       else {
+  //         const responseData = JSON.parse(res.text);
+  //         expect(responseData).to.be.an('object');
+  //       }
+  //       done();
+  //     });
+  // });
+});

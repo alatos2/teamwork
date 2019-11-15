@@ -15,7 +15,7 @@ const articleValues = ['1', 'Black Cat', 'The black cat is handsome', moment().f
 const gifText = 'INSERT INTO gifs (user_id,title,image,created_at) VALUES ($1,$2,$3,$4) RETURNING *';
 const gifValues = ['1', 'White House', 'https://res.cloudinary.com/daealmvag/image/upload/v1561569684/house2_kagcwz.jpg', moment().format()];
 
-const commentText = 'INSERT INTO comments (article_id,user_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *';
+const commentText = 'INSERT INTO comments (article_id,author_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *';
 const commentValues = ['1', '1', 'Nice one', 'article', moment().format()];
 
 const createTables = () => {
@@ -56,7 +56,7 @@ const createTables = () => {
     comments (
         id serial primary key,
         article_id INT NOT NULL,
-        user_id INT NOT NULL,
+        author_id INT NOT NULL,
         type varchar(128) not null,
         comment varchar(128) not null,
         created_at timestamp
