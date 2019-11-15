@@ -100,4 +100,47 @@ export default class GifModel {
       return Responses.send(res);
     }
   }
+
+  /**
+   * @method
+   * @description Method to view all article
+   * @static
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof GifModel
+   */
+
+  static async viewSpecific(value1, res) {
+    try {
+      const result1 = await pool.query('SELECT * FROM gifs WHERE id = $1', value1);
+      const gif = result1.rows[0];
+      if (!gif) {
+        Responses.setError(400, 'Gif does not exist');
+        return Responses.send(res);
+      }
+      const result2 = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [gif.id, 'gif']);
+      let comm;
+      const comment = result2.rows;
+      if (!comment) {
+        comm = 'No comment yet';
+      } else {
+        comm = comment;
+      }
+      const articleData = {
+        data: {
+          id: gif.id,
+          createOn: gif.created_at,
+          title: gif.title,
+          url: gif.image,
+          comments: comm,
+        },
+      };
+      Responses.setSuccess(200, { ...articleData });
+      return Responses.send(res);
+    } catch (e) {
+      Responses.setError(500, 'Server error');
+      return Responses.send(res);
+    }
+  }
+
 }

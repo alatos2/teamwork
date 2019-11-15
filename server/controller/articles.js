@@ -79,7 +79,6 @@ const viewAllArticle = (req, res) => {
  */
 
 const viewSpecificArticle = (req, res) => {
-  console.log(req.params.id);
   ArticleModel.viewSpecific([req.params.id], res);
 };
 

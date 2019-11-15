@@ -298,7 +298,6 @@ describe('/POST Create Comment', () => {
   });
 });
 
-
 describe('/GET View specific article', () => {
   it('should view specific article if parameter is valid', (done) => {
     request(server)

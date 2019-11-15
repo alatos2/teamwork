@@ -61,8 +61,19 @@ const createGifComment = (req, res) => {
   GifModel.createComment(value1, value2, res);
 };
 
+/**
+ * @function viewSpecificGif
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const viewSpecificGif = (req, res) => {
+  GifModel.viewSpecific([req.params.id], res);
+};
+
 const gifs = {
-  createGif, deleteGif, createGifComment,
+  createGif, deleteGif, createGifComment, viewSpecificGif,
 };
 
 export default gifs;
