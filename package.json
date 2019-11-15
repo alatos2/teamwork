@@ -14,7 +14,9 @@
     "db:createComment": "babel-node ./server/models/migrations createComment",
     "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif && npm run db:createComment",
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "build": "babel server -d dist",
+    "start": "npm run build && node dist/index.js"
   },
   "repository": {
     "type": "git",
