@@ -71,8 +71,44 @@ const viewAllArticle = (req, res) => {
   ArticleModel.viewAll(res);
 };
 
+// /**
+//  * @function viewSpecificArticle
+//  * @param {object} req - express request object
+//  * @param {object} res - express response object
+//  * @returns json
+//  */
+
+// const viewSpecificArticle = (req, res) => {
+//   const { id } = req.params;
+//   const articleId = [id];
+//   ArticleModel.viewSpecific(articleId, res);
+// };
+
+/**
+ * @function createComment
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const createComment = (req, res) => {
+  const {
+    comment,
+  } = req.body;
+
+  const result = validations.validateComment(req.body);
+  if (result.error) {
+    const errorMsg = result.error.details[0].message;
+    Responses.setError(400, errorMsg.replace(/[^a-zA-Z ]/g, ''));
+    return Responses.send(res);
+  }
+  const value1 = [req.params.id, req.decode.id, comment, moment().format()];
+  const value2 = [req.params.id];
+  ArticleModel.createComment(value1, value2, res);
+};
+
 const article = {
-  createArticle, editArticle, deleteArticle, viewAllArticle,
+  createArticle, editArticle, deleteArticle, viewAllArticle, createComment,
 };
 
 export default article;

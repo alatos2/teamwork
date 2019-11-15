@@ -15,6 +15,9 @@ const articleValues = ['1', 'Black Cat', 'The black cat is handsome', moment().f
 const gifText = 'INSERT INTO gifs (user_id,title,image,created_at) VALUES ($1,$2,$3,$4) RETURNING *';
 const gifValues = ['1', 'White House', 'https://res.cloudinary.com/daealmvag/image/upload/v1561569684/house2_kagcwz.jpg', moment().format()];
 
+const commentText = 'INSERT INTO comments (article_id,user_id,comment,created_at) VALUES ($1,$2,$3,$4) RETURNING *';
+const commentValues = ['1', '1', 'Nice one', moment().format()];
+
 const createTables = () => {
   const users = `CREATE TABLE IF NOT EXISTS
     users (
@@ -49,6 +52,15 @@ const createTables = () => {
         created_at timestamp
     )`;
 
+  const comments = `CREATE TABLE IF NOT EXISTS
+    comments (
+        id serial primary key,
+        article_id INT NOT NULL,
+        user_id INT NOT NULL,
+        comment varchar(128) not null,
+        created_at timestamp
+    )`;
+
   pool.query(users)
     .then((response) => {
       debug(response);
@@ -70,6 +82,16 @@ const createTables = () => {
     });
 
   pool.query(gifs)
+    .then((response) => {
+      debug(response);
+      pool.end();
+    })
+    .catch((error) => {
+      debug(error);
+      pool.end();
+    });
+
+  pool.query(comments)
     .then((response) => {
       debug(response);
       pool.end();
@@ -120,13 +142,24 @@ const createGif = () => {
     });
 };
 
+const createComment = () => {
+  pool
+    .query(commentText, commentValues)
+    .then((result) => {
+      debug(result.rows[0]);
+    })
+    .catch((error) => {
+      debug(error.stack);
+    });
+};
+
 pool.on('remove', () => {
   debug('client removed');
   process.exit(0);
 });
 
 module.exports = {
-  createTables, dropTables, createUser, createArticle, createGif,
+  createTables, dropTables, createUser, createArticle, createGif, createComment,
 };
 
 require('make-runnable');

@@ -11,7 +11,8 @@
     "db:createUser": "babel-node ./server/models/migrations createUser",
     "db:createArticle": "babel-node ./server/models/migrations createArticle",
     "db:createGif": "babel-node ./server/models/migrations createGif",
-    "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif",
+    "db:createComment": "babel-node ./server/models/migrations createComment",
+    "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif && npm run db:createComment",
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/alatos2/teamwork#readme",
   "dependencies": {
+    "@babel/runtime": "^7.7.2",
     "@hapi/joi": "^15.1.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.17.0",
@@ -45,6 +47,7 @@
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
     "babel-eslint": "^10.0.3",
