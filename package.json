@@ -16,7 +16,7 @@
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "babel server -d dist",
-    "start": "npm run build && node dist/index.js"
+    "start": "node dist/index.js"
   },
   "repository": {
     "type": "git",
