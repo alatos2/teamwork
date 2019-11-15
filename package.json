@@ -15,7 +15,7 @@
     "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif && npm run db:createComment",
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "babel server -d dist",
+    "build": "babel server -d dist && npm run db:migrations && npm run db:seed",
     "start": "node dist/index.js"
   },
   "repository": {
