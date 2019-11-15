@@ -120,3 +120,80 @@ describe('/DELETE Delete Gif Route', () => {
       });
   });
 });
+
+describe('/POST Gif Comment', () => {
+  it('should create comment if parameter is valid', (done) => {
+    request(server)
+      .post('/api/v1/auth/gifs/2/comment')
+      .set('Authorization', userToken)
+      .send({
+        comment: 'Nice word!',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not create comment if id is not valid', (done) => {
+    request(server)
+      .post('/api/v1/auth/gifs/10/comment')
+      .set('Authorization', userToken)
+      .send({
+        comment: 'Nice word!',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not create comment if there is no comment', (done) => {
+    request(server)
+      .post('/api/v1/auth/gifs/1/comment')
+      .set('Authorization', userToken)
+      .send({})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+  it('should not create comment if user is not logged in', (done) => {
+    request(server)
+      .post('/api/v1/auth/gifs/1/comment')
+      .set('Authorization', 'userToken')
+      .send({
+        comment: 'Rubbish',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        else {
+          const responseData = JSON.parse(res.text);
+          expect(responseData).to.be.an('object');
+        }
+        done();
+      });
+  });
+});

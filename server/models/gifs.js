@@ -67,4 +67,37 @@ export default class GifModel {
         });
     });
   }
+
+  /**
+   * @method
+   * @description Method to create gif comment
+   * @static
+   * @param {object} values - body values
+   * @param {object} res - Response object
+   * @returns {object} JSON response
+   * @memberof GifModel
+   */
+  static async createComment(values1, values2, res) {
+    try {
+      const result1 = await pool.query('SELECT title FROM gifs WHERE id = $1', values2);
+      const getGif = result1.rows[0];
+      if (!getGif) {
+        Responses.setError(400, 'Gif does not exist');
+        return Responses.send(res);
+      }
+      const result2 = await pool.query('INSERT INTO comments (article_id,user_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
+      const addComment = result2.rows[0];
+      const commentData = {
+        message: 'Comments successfully created',
+        createdOn: addComment.created_at,
+        gifTitle: getGif.title,
+        comment: addComment.comment,
+      };
+      Responses.setSuccess(201, { ...commentData });
+      return Responses.send(res);
+    } catch (e) {
+      Responses.setError(500, 'Server error');
+      return Responses.send(res);
+    }
+  }
 }

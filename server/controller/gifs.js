@@ -38,8 +38,31 @@ const deleteGif = (req, res) => {
   GifModel.delete(gifValues, res);
 };
 
+/**
+ * @function createGifComment
+ * @param {object} req - express request object
+ * @param {object} res - express response object
+ * @returns json
+ */
+
+const createGifComment = (req, res) => {
+  const {
+    comment,
+  } = req.body;
+
+  const result = validations.validateGifComment(req.body);
+  if (result.error) {
+    const errorMsg = result.error.details[0].message;
+    Responses.setError(400, errorMsg.replace(/[^a-zA-Z ]/g, ''));
+    return Responses.send(res);
+  }
+  const value1 = [req.params.id, req.decode.id, comment, 'gif', moment().format()];
+  const value2 = [req.params.id];
+  GifModel.createComment(value1, value2, res);
+};
+
 const gifs = {
-  createGif, deleteGif,
+  createGif, deleteGif, createGifComment,
 };
 
 export default gifs;

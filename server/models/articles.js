@@ -168,10 +168,10 @@ export default class ArticleModel {
       const result1 = await pool.query('SELECT title, article FROM articles WHERE id = $1', values2);
       const getArticle = result1.rows[0];
       if (!getArticle) {
-        Responses.setError(400, 'Article do not exist');
+        Responses.setError(400, 'Article does not exist');
         return Responses.send(res);
       }
-      const result2 = await pool.query('INSERT INTO comments (article_id,user_id,comment,created_at) VALUES ($1,$2,$3,$4) RETURNING *', values1);
+      const result2 = await pool.query('INSERT INTO comments (article_id,user_id,comment,type,created_at) VALUES ($1,$2,$3,$4,$5) RETURNING *', values1);
       const addComment = result2.rows[0];
       const commentData = {
         message: 'Comments successfully created',

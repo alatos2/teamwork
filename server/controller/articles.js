@@ -102,7 +102,7 @@ const createComment = (req, res) => {
     Responses.setError(400, errorMsg.replace(/[^a-zA-Z ]/g, ''));
     return Responses.send(res);
   }
-  const value1 = [req.params.id, req.decode.id, comment, moment().format()];
+  const value1 = [req.params.id, req.decode.id, comment, 'article', moment().format()];
   const value2 = [req.params.id];
   ArticleModel.createComment(value1, value2, res);
 };
