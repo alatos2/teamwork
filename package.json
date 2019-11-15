@@ -15,7 +15,8 @@
     "db:seed": "npm run db:createUser && npm run db:createArticle && npm run db:createGif && npm run db:createComment",
     "db:migrations": "npm run db:dropTable && npm run db:createTable",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "npm install --only=dev && babel server --out-dir dist --copy-files",
+    "heroku-prebuild": "npm install --only=dev",
+    "build": "babel server --out-dir dist --copy-files",
     "start": "node dist/index.js"
   },
   "repository": {
