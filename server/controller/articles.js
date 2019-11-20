@@ -55,8 +55,7 @@ const editArticle = (req, res) => {
  */
 
 const deleteArticle = (req, res) => {
-  const { id } = req.params;
-  const articleValues = [id];
+  const articleValues = [req.params.id];
   ArticleModel.delete(articleValues, res);
 };
 

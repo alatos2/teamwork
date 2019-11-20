@@ -46,20 +46,12 @@ const validateComment = (data) => {
   return Joi.validate(data, schema);
 };
 
-const validateGifComment = (data) => {
-  const schema = {
-    comment: Joi.string().required().error((_error) => ({ message: 'Comment is required' })),
-  };
-  return Joi.validate(data, schema);
-};
-
 const validations = {
   validateCreateUser,
   validateSignin,
   validateArticle,
   validateGif,
   validateComment,
-  validateGifComment,
 };
 
 export default validations;

@@ -33,8 +33,7 @@ const createGif = (req, res) => {
  */
 
 const deleteGif = (req, res) => {
-  const { id } = req.params;
-  const gifValues = [id];
+  const gifValues = [req.params.id];
   GifModel.delete(gifValues, res);
 };
 
@@ -50,7 +49,7 @@ const createGifComment = (req, res) => {
     comment,
   } = req.body;
 
-  const result = validations.validateGifComment(req.body);
+  const result = validations.validateComment(req.body);
   if (result.error) {
     const errorMsg = result.error.details[0].message;
     Responses.setError(400, errorMsg.replace(/[^a-zA-Z ]/g, ''));
