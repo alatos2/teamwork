@@ -69,7 +69,7 @@ const createGifComment = (req, res) => {
  */
 
 const viewSpecificGif = (req, res) => {
-  GifModel.viewSpecific([req.params.id], res);
+  GifModel.viewSpecificGif([req.params.id], res);
 };
 
 const gifs = {

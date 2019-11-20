@@ -110,17 +110,16 @@ export default class GifModel {
    * @memberof GifModel
    */
 
-  static async viewSpecific(value1, res) {
+  static async viewSpecificGif(id, res) {
     try {
-      const result1 = await pool.query('SELECT * FROM gifs WHERE id = $1', value1);
-      const gif = result1.rows[0];
+      const gifText = await pool.query('SELECT * FROM gifs WHERE id = $1', id);
+      const gif = gifText.rows[0];
       if (!gif) {
-        Responses.setError(400, 'Gif does not exist');
-        return Responses.send(res);
+        Responses.setError(400, 'Gif does not exist'); return Responses.send(res);
       }
-      const result2 = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [gif.id, 'gif']);
+      const gifCommentText = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [gif.id, 'gif']);
       let comm;
-      const comment = result2.rows;
+      const comment = gifCommentText.rows;
       if (!comment) {
         comm = 'No comment yet';
       } else {
@@ -128,19 +127,12 @@ export default class GifModel {
       }
       const articleData = {
         data: {
-          id: gif.id,
-          createOn: gif.created_at,
-          title: gif.title,
-          url: gif.image,
-          comments: comm,
+          id: gif.id, createOn: gif.created_at, title: gif.title, url: gif.image, comments: comm,
         },
       };
-      Responses.setSuccess(200, { ...articleData });
-      return Responses.send(res);
+      Responses.setSuccess(200, { ...articleData }); return Responses.send(res);
     } catch (e) {
-      Responses.setError(500, 'Server error');
-      return Responses.send(res);
+      Responses.setError(500, 'Server error'); return Responses.send(res);
     }
   }
-
 }

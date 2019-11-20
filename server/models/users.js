@@ -54,15 +54,13 @@ export default class UserModel {
    * @memberof UserModel
    */
   static signin(email, res, password) {
-    const text = 'SELECT * FROM users WHERE email = $1';
     pool.connect((error, client, done) => {
       client
-        .query(text, email)
+        .query('SELECT * FROM users WHERE email = $1', email)
         .then((result) => {
           const user = result.rows[0];
           if (!user) {
-            Responses.setError(401, 'Email does not exist');
-            return Responses.send(res);
+            Responses.setError(401, 'Email does not exist'); return Responses.send(res);
           }
           if (utils.validatePassword(password, user.password)) {
             const userToken = utils.jwtToken({ id: user.id, email: user.email, isAdmin: user.is_admin });
@@ -71,15 +69,12 @@ export default class UserModel {
               userId: user.id,
               email: user.email,
             };
-            Responses.setSuccess(200, { ...userData });
-            return Responses.send(res);
+            Responses.setSuccess(200, { ...userData }); return Responses.send(res);
           }
-          Responses.setError(401, 'Incorrect password');
-          return Responses.send(res);
+          Responses.setError(401, 'Incorrect password'); return Responses.send(res);
         })
         .catch((e) => {
-          Responses.setError(500, 'Server error');
-          return Responses.send(res);
+          Responses.setError(500, 'Server error'); return Responses.send(res);
         });
     });
   }

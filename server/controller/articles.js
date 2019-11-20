@@ -79,7 +79,7 @@ const viewAllArticle = (req, res) => {
  */
 
 const viewSpecificArticle = (req, res) => {
-  ArticleModel.viewSpecific([req.params.id], res);
+  ArticleModel.viewSpecificArticle([req.params.id], res);
 };
 
 /**
