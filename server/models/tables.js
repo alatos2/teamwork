@@ -1,7 +1,4 @@
-import Debug from 'debug';
-import pool from './database';
-
-const debug = Debug('http');
+import { getQueryData } from './queries';
 
 export default class Tables {
   static createUsersTable() {
@@ -19,9 +16,7 @@ export default class Tables {
             is_admin boolean,
             created_at timestamp
         )`;
-    pool.query(users)
-      .then((response) => { debug(response); pool.end(); })
-      .catch((error) => { debug(error); pool.end(); });
+    getQueryData(users);
   }
 
   static createArticlesTable() {
@@ -33,9 +28,7 @@ export default class Tables {
         article varchar(500) not null,
         created_at timestamp
     )`;
-    pool.query(articles)
-      .then((response) => { debug(response); pool.end(); })
-      .catch((error) => { debug(error); pool.end(); });
+    getQueryData(articles);
   }
 
   static createGifTable() {
@@ -47,9 +40,7 @@ export default class Tables {
         image varchar(256) not null,
         created_at timestamp
     )`;
-    pool.query(gifs)
-      .then((response) => { debug(response); pool.end(); })
-      .catch((error) => { debug(error); pool.end(); });
+    getQueryData(gifs);
   }
 
   static createCommentTable() {
@@ -62,8 +53,6 @@ export default class Tables {
         comment varchar(128) not null,
         created_at timestamp
     )`;
-    pool.query(comments)
-      .then((response) => { debug(response); pool.end(); })
-      .catch((error) => { debug(error); pool.end(); });
+    getQueryData(comments);
   }
 }

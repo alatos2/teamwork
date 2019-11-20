@@ -1,4 +1,8 @@
 import moment from 'moment';
+import Debug from 'debug';
+import pool from './database';
+
+const debug = Debug('http');
 
 /**
  * @name addUser
@@ -36,3 +40,9 @@ export const getUserByEmail = (email) => ({
   text: 'SELECT * FROM users WHERE email = $1',
   values: [email],
 });
+
+export const getQueryData = (data) => {
+  pool.query(data)
+    .then((response) => { debug(response); pool.end(); })
+    .catch((error) => { debug(error); pool.end(); });
+};
