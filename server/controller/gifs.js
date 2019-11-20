@@ -33,8 +33,7 @@ const createGif = (req, res) => {
  */
 
 const deleteGif = (req, res) => {
-  const gifValues = [req.params.id];
-  GifModel.delete(gifValues, res);
+  GifModel.deleteGif([req.params.id], res);
 };
 
 /**

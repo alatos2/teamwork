@@ -49,7 +49,7 @@ export default class GifModel {
    * @memberof GifModel
    */
 
-  static delete(values, res) {
+  static deleteGif(values, res) {
     const text = 'DELETE FROM gifs WHERE id = $1 RETURNING *';
     pool.connect((error, client, done) => {
       client
