@@ -2,7 +2,7 @@ import Debug from 'debug';
 import moment from 'moment';
 import utils from '../helpers/commons';
 import pool from './database';
-import { addUser } from './queries';
+import Tables from './tables';
 
 const debug = Debug('http');
 
@@ -19,88 +19,10 @@ const commentText = 'INSERT INTO comments (article_id,author_id,comment,type,cre
 const commentValues = ['1', '1', 'Nice one', 'article', moment().format()];
 
 const createTables = () => {
-  const users = `CREATE TABLE IF NOT EXISTS
-    users (
-        id serial primary key,
-        first_name varchar(128) not null,
-        last_name varchar(128) not null,
-        email varchar(128) not null,
-        password varchar(128) not null,
-        gender varchar(128) not null,
-        job_role varchar(128) not null,
-        department varchar(128) not null,
-        address varchar(128) not null,
-        is_admin boolean,
-        created_at timestamp
-    )`;
-
-  const articles = `CREATE TABLE IF NOT EXISTS
-    articles (
-        id serial primary key,
-        user_id INT NOT NULL,
-        title varchar(128) not null,
-        article varchar(500) not null,
-        created_at timestamp
-    )`;
-
-  const gifs = `CREATE TABLE IF NOT EXISTS
-    gifs (
-        id serial primary key,
-        user_id INT NOT NULL,
-        title varchar(128) not null,
-        image varchar(256) not null,
-        created_at timestamp
-    )`;
-
-  const comments = `CREATE TABLE IF NOT EXISTS
-    comments (
-        id serial primary key,
-        article_id INT NOT NULL,
-        author_id INT NOT NULL,
-        type varchar(128) not null,
-        comment varchar(128) not null,
-        created_at timestamp
-    )`;
-
-  pool.query(users)
-    .then((response) => {
-      debug(response);
-      pool.end();
-    })
-    .catch((error) => {
-      debug(error);
-      pool.end();
-    });
-
-  pool.query(articles)
-    .then((response) => {
-      debug(response);
-      pool.end();
-    })
-    .catch((error) => {
-      debug(error);
-      pool.end();
-    });
-
-  pool.query(gifs)
-    .then((response) => {
-      debug(response);
-      pool.end();
-    })
-    .catch((error) => {
-      debug(error);
-      pool.end();
-    });
-
-  pool.query(comments)
-    .then((response) => {
-      debug(response);
-      pool.end();
-    })
-    .catch((error) => {
-      debug(error);
-      pool.end();
-    });
+  Tables.createUsersTable();
+  Tables.createArticlesTable();
+  Tables.createGifTable();
+  Tables.createCommentTable();
 };
 
 const dropTables = () => {
