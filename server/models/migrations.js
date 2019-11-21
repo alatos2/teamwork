@@ -3,6 +3,7 @@ import moment from 'moment';
 import utils from '../helpers/commons';
 import pool from './database';
 import Tables from './tables';
+import { getQueryData2 } from './queries';
 
 const debug = Debug('http');
 
@@ -33,47 +34,16 @@ const dropTables = () => {
 };
 
 const createUser = () => {
-  pool
-    .query(userText, userValues)
-    .then((result) => {
-      debug(result.rows[0]);
-    })
-    .catch((error) => {
-      debug(error.stack);
-    });
+  getQueryData2(userText, userValues);
 };
-
 const createArticle = () => {
-  pool
-    .query(articleText, articleValues)
-    .then((result) => {
-      debug(result.rows[0]);
-    })
-    .catch((error) => {
-      debug(error.stack);
-    });
+  getQueryData2(articleText, articleValues);
 };
-
 const createGif = () => {
-  pool
-    .query(gifText, gifValues)
-    .then((result) => {
-      debug(result.rows[0]);
-    })
-    .catch((error) => {
-      debug(error.stack);
-    });
+  getQueryData2(gifText, gifValues);
 };
-
 const createComment = () => {
-  pool
-    .query(commentText, commentValues)
-    .then((result) => {
-      debug(result.rows[0]);
-    })
-    .catch((error) => {
-      debug(error.stack);
-    });
+  getQueryData2(commentText, commentValues);
 };
 
 pool.on('remove', () => {

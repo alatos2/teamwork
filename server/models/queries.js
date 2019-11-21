@@ -46,3 +46,15 @@ export const getQueryData = (data) => {
     .then((response) => { debug(response); pool.end(); })
     .catch((error) => { debug(error); pool.end(); });
 };
+
+
+export const getQueryData2 = (data, values) => {
+  pool
+    .query(data, values)
+    .then((result) => {
+      debug(result.rows[0]);
+    })
+    .catch((error) => {
+      debug(error.stack);
+    });
+};

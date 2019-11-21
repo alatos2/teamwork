@@ -80,10 +80,9 @@ export default class ArticleModel {
    */
 
   static delete(values, res) {
-    const text = 'DELETE FROM articles WHERE id = $1 RETURNING *';
     pool.connect((error, client, done) => {
       client
-        .query(text, values)
+        .query('DELETE FROM articles WHERE id = $1 RETURNING *', values)
         .then(() => {
           const articleData = {
             message: 'Article successfully deleted',
