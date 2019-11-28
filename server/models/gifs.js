@@ -112,29 +112,6 @@ export default class GifModel {
    */
 
   static async viewSpecificGif(id, res) {
-    // try {
-    //   const gifText = await pool.query('SELECT * FROM gifs WHERE id = $1', id);
-    //   const gif = gifText.rows[0];
-    //   if (!gif) {
-    //     Responses.setError(400, 'Gif does not exist'); return Responses.send(res);
-    //   }
-    //   const gifCommentText = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [gif.id, 'gif']);
-    //   let comm;
-    //   const comment = gifCommentText.rows;
-    //   if (!comment) {
-    //     comm = 'No comment yet';
-    //   } else {
-    //     comm = comment;
-    //   }
-    //   const articleData = {
-    //     data: {
-    //       id: gif.id, createOn: gif.created_at, title: gif.title, url: gif.image, comments: comm,
-    //     },
-    //   };
-    //   Responses.setSuccess(200, { ...articleData }); return Responses.send(res);
-    // } catch (e) {
-    //   Responses.setError(500, 'Server error'); return Responses.send(res);
-    // }
     const gifText = 'SELECT * FROM gifs WHERE id = $1';
     const commentText = 'SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2';
     specific(gifText, commentText, 'gif', id, res);
