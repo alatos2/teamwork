@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import Debug from 'debug';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './docs/swagger.json';
 import userRoute from './routes/userRoute';
 import articleRoute from './routes/articleRoute';
 import gifRoute from './routes/gifRoute';
@@ -15,6 +17,9 @@ app.get('/', (req, res) => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(cors());
 

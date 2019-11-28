@@ -1,0 +1,840 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Teamwork is an internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.",
+      "version": "1.0.0",
+      "title": "Teamwork"
+    },
+    "servers": [
+      {
+        "url": "https://team-work1.herokuapp.com/api/v1"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Admin",
+        "description": "All actions by the administrator"
+      },
+      {
+        "name": "Admin or Employee",
+        "description": "All actions by the administrator or employee"
+      },
+      {
+        "name": "Article",
+        "description": "All actions by the employee"
+      },
+      {
+        "name": "Gifs",
+        "description": "All actions by the employee"
+      }
+    ],
+    "paths": {
+      "/auth/create-user": {
+        "post": {
+          "tags": [
+            "Admin"
+          ],
+          "summary": "Admin can create an employee user account.",
+          "security": [
+              {
+                "ApiKeyAuth": []
+              }
+            ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "password",
+                    "gender",
+                    "jobRole",
+                    "department",
+                    "address",
+                    "isAdmin"
+                  ],
+                  "properties": {
+                    "firstName": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "email": {
+                      "type": "string",
+                      "minLength": 4,
+                      "pattern": "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/"
+                    },
+                    "password": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "gender": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "jobRole": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "department": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "isAdmin": {
+                      "type": "boolean",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successfully created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Admin"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing required parameter"
+            }
+          }
+        }
+      },
+      "/auth/signin": {
+        "post": {
+          "tags": [
+            "Admin or Employee"
+          ],
+          "summary": "Admin/Employees can sign in",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "email",
+                    "password"
+                  ],
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "minLength": 4,
+                      "pattern": "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/"
+                    },
+                    "password": {
+                      "type": "string",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Admin"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing required parameter"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "/auth/gifs": {
+        "post": {
+          "tags": [
+            "Gifs"
+          ],
+          "summary": "Create a gif.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "image"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "image": {
+                      "type": "string",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successfully created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Gif"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing required parameter"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "/auth/articles": {
+        "post": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Create an article",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "article"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "article": {
+                      "type": "string",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Article"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Property advert not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      
+          
+      "/auth/articles/{id}/comment": {
+        "post": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Employees can comment on other colleagues' article post.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "comment"
+                    ],
+                    "properties": {
+                      "comment": {
+                        "type": "string",
+                        "minLength": 4
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          "responses": {
+            "201": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArticleComment"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Article not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      
+      "/auth/feed": {
+        "get": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Employees can view all articles, showing the most recently posted articles first.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArticleGetAll"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Property advert type not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      
+      
+      
+      
+      
+      
+      
+      "/auth/articles/{id}": {
+        "patch": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Edit an article",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "article"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "article": {
+                      "type": "string",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArticleEdit"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Article not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Employees can view a specific article.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArticleGetAll"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Article not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Article"
+          ],
+          "summary": "Employees can delete their articles",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArticleDelete"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Article not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      
+      
+      
+          
+      "/auth/gifs/{id}/comment": {
+        "post": {
+          "tags": [
+            "Gifs"
+          ],
+          "summary": "Employees can comment on other colleagues' gif post.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "comment"
+                    ],
+                    "properties": {
+                      "comment": {
+                        "type": "string",
+                        "minLength": 4
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          "responses": {
+            "201": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Gif"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Gif not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      
+      
+      
+      
+      "/auth/gifs/{id}": {
+        "get": {
+          "tags": [
+            "Gifs"
+          ],
+          "summary": "Employees can view a specific gif post.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Gif"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Gif not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Gifs"
+          ],
+          "summary": "Employees can delete their gifs",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GifDelete"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Access denied, no token provided"
+            },
+            "403": {
+              "description": "Forbidden: Access is denied"
+            },
+            "404": {
+              "description": "Gif not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "ApiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "authorization"
+        }
+      },
+      "schemas": {
+        "Admin": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string"
+            },
+            "jobRole": {
+              "type": "string"
+            },
+            "department":{
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "isAdmin": {
+              "type":"boolean"
+            }
+          }
+        },
+        "Article": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "article": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        },
+        "Gif": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            }
+          }
+        },
+        "ArticleDelete": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "ArticleComment": {
+          "type": "object",
+          "properties": {
+            "comment": {
+              "type": "string"
+            }
+          }
+        },
+        "GifDelete": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "ArticleEdit": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "ArticleGetAll": {
+          "type": "object",
+          "properties": {
+  
+            }
+          }
+        }
+      }
+    }
