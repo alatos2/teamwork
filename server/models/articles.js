@@ -1,5 +1,6 @@
 import pool from './database';
 import Responses from '../helpers/response';
+import { specific } from './queries';
 
 /**
  * @class
@@ -135,29 +136,32 @@ export default class ArticleModel {
    */
 
   static async viewSpecificArticle(value1, res) {
-    try {
-      const articleText = await pool.query('SELECT * FROM articles WHERE id = $1', value1);
-      const article = articleText.rows[0];
-      if (!article) {
-        Responses.setError(400, 'Article does not exist'); return Responses.send(res);
-      }
-      const commentText = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [article.id, 'article']);
-      let comm;
-      const comment = commentText.rows;
-      if (!comment) {
-        comm = 'No comment yet';
-      } else {
-        comm = comment;
-      }
-      const articleData = {
-        data: {
-          id: article.id, createOn: article.created_at, title: article.title, article: article.article, comments: comm,
-        },
-      };
-      Responses.setSuccess(200, { ...articleData }); return Responses.send(res);
-    } catch (e) {
-      Responses.setError(500, 'Server error'); return Responses.send(res);
-    }
+    // try {
+    //   const articleText = await pool.query('SELECT * FROM articles WHERE id = $1', value1);
+    //   const article = articleText.rows[0];
+    //   if (!article) {
+    //     Responses.setError(400, 'Article does not exist'); return Responses.send(res);
+    //   }
+    //   const commentText = await pool.query('SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2', [article.id, 'article']);
+    //   let comm;
+    //   const comment = commentText.rows;
+    //   if (!comment) {
+    //     comm = 'No comment yet';
+    //   } else {
+    //     comm = comment;
+    //   }
+    //   const articleData = {
+    //     data: {
+    //       id: article.id, createOn: article.created_at, title: article.title, article: article.article, comments: comm,
+    //     },
+    //   };
+    //   Responses.setSuccess(200, { ...articleData }); return Responses.send(res);
+    // } catch (e) {
+    //   Responses.setError(500, 'Server error'); return Responses.send(res);
+    // }
+    const articleText = 'SELECT * FROM articles WHERE id = $1';
+    const commentText = 'SELECT id, comment, author_id FROM comments WHERE article_id = $1 AND type = $2';
+    specific(articleText, commentText, 'article', value1, res);
   }
 
   /**

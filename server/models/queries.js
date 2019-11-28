@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Debug from 'debug';
 import pool from './database';
+import Responses from '../helpers/response';
 
 const debug = Debug('http');
 
@@ -57,4 +58,31 @@ export const getQueryData2 = (data, values) => {
     .catch((error) => {
       debug(error.stack);
     });
+};
+
+export const specific = async (query1, query2, type, value, res) => {
+  try {
+    const text = await pool.query(query1, value);
+    const val = text.rows[0];
+    if (!val) {
+      Responses.setError(400, 'Does not exist'); return Responses.send(res);
+    }
+    const commentText = await pool.query(query2, [val.id, type]);
+    let comm;
+    const comment = commentText.rows;
+    if (!comment) {
+      comm = 'No comment yet';
+    } else {
+      comm = comment;
+    }
+    const article = (type === 'gif') ? val.image : val.article;
+    const data = {
+      data: {
+        id: val.id, createOn: val.created_at, title: val.title, article, comments: comm,
+      },
+    };
+    Responses.setSuccess(200, { ...data }); return Responses.send(res);
+  } catch (e) {
+    Responses.setError(500, 'Server error'); return Responses.send(res);
+  }
 };
